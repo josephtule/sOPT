@@ -7,9 +7,30 @@
 namespace sOPT {
 
 // finite difference options
-enum struct FallbackGrad { fd_foward, fd_backward, fd_central };
-enum struct FallbackHess { fd_foward, fd_backward, fd_central };
-enum struct FallbackHv { fd_foward, fd_backward, fd_central };
+enum struct FallbackGrad {
+    fd_forward,
+    fd_backward,
+    fd_central,
+    fd_forward_2,
+    fd_backward_2,
+    fd_central_2
+};
+enum struct FallbackHess {
+    fd_forward,
+    fd_backward,
+    fd_central,
+    fd_forward_2,
+    fd_backward_2,
+    fd_central_2
+};
+enum struct FallbackHv {
+    fd_forward,
+    fd_backward,
+    fd_central,
+    fd_forward_2,
+    fd_backward_2,
+    fd_central_2
+};
 
 struct FDOptions {
     FallbackGrad fallback_grad = FallbackGrad::fd_central;

@@ -5,6 +5,8 @@
 #include "sOPT/core/result.hpp"
 #include "sOPT/core/typedefs.hpp"
 #include "sOPT/core/vecdefs.hpp"
+#include "sOPT/problem/oracle.hpp"
+
 namespace sOPT {
 // Gradient Descent
 //
@@ -24,7 +26,7 @@ Result gradient_descent(
     const IterCallback& on_iter = {},
     const StopCallback& should_stop = {}
 ) {
-    Oracle<obj> oracle(obj, opt);
+    Oracle<Obj> oracle(obj, opt);
     Result res;
 
     const i32 n = static_cast<i32>(x.size());

@@ -12,6 +12,10 @@ namespace eig = Eigen;
 // clang-format off
 template <typename M> using eref = eig::Ref<M>;
 template <typename M> using ecref = eig::Ref<const M>;
+constexpr auto esUp = eig::StrictlyUpper;
+constexpr auto eUp = eig::Upper;
+constexpr auto eLo = eig::Lower;
+constexpr auto esLo = eig::StrictlyLower;
 
 template <typename T, int N, int M> using mat = eig::Matrix<T, N, M>;
 template <int N, int M> using matd = eig::Matrix<f64, N, M>;
