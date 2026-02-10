@@ -9,10 +9,10 @@ namespace sOPT {
 
 template <typename OracleT>
 inline bool
-fd_gradient_forward(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-8) {
+fd_gradient_forward(OracleT& oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-8) {
     const i32 n = static_cast<i32>(x.size());
 
-    const f64 fx = 0.0;
+    f64 fx = 0.0;
     if (!oracle.try_func(x, fx)) return false;
     vecXd xph = x;
     for (i32 i = 0; i < n; i++) {
@@ -28,10 +28,10 @@ fd_gradient_forward(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-
 
 template <typename OracleT>
 inline bool
-fd_gradient_backward(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-8) {
+fd_gradient_backward(OracleT& oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-8) {
     const i32 n = static_cast<i32>(x.size());
 
-    const f64 fx = 0.0;
+    f64 fx = 0.0;
     if (!oracle.try_func(x, fx)) return false;
     vecXd xmh = x;
     for (i32 i = 0; i < n; i++) {
@@ -42,11 +42,12 @@ fd_gradient_backward(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e
         g(i) = (fx - fxmh) / h;
         xmh(i) = x(i); // reset
     }
+    return g.allFinite();
 }
 
 template <typename OracleT>
 inline bool
-fd_gradient_central(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
+fd_gradient_central(OracleT& oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd xph = x;
@@ -70,7 +71,7 @@ fd_gradient_central(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-
 
 template <typename OracleT>
 inline bool
-fd_gradient_forward_2(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
+fd_gradient_forward_2(OracleT& oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     f64 fx = 0.0;
@@ -94,7 +95,7 @@ fd_gradient_forward_2(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1
 
 template <typename OracleT>
 inline bool
-fd_gradient_backward_2(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
+fd_gradient_backward_2(OracleT& oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     f64 fx = 0.0;
@@ -118,7 +119,7 @@ fd_gradient_backward_2(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 
 
 template <typename OracleT>
 inline bool
-fd_gradient_central_2(OracleT oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
+fd_gradient_central_2(OracleT& oracle, ecref<vecXd> x, eref<vecXd> g, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd xph = x;

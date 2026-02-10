@@ -50,7 +50,7 @@ svec<T> vieta(const eref<const vecX<T>>& poles) {
     for (int i = 0; i < poles.size(); ++i) {
         svec<T> new_poly(poly.size() + 1, T(0));
         for (size_t j = 0; j < poly.size(); ++j) {
-            new_poly[j] += poly[j]; // coefficient without this root
+            new_poly[j] += poly[j];                 // coefficient without this root
             new_poly[j + 1] += -poles(i) * poly[j]; // include this root
         }
         poly = new_poly;
@@ -61,10 +61,7 @@ svec<T> vieta(const eref<const vecX<T>>& poles) {
 
 template <typename T>
 vecX<T> conv(const eref<const vecX<T>>& a, const eref<const vecX<T>>& b) {
-    static_assert(
-        std::is_arithmetic_v<T>,
-        "conv<T>: T must be an arithmetic type"
-    );
+    static_assert(std::is_arithmetic_v<T>, "conv<T>: T must be an arithmetic type");
 
     if (a.empty() || b.empty()) return vecX<T>{};
 
@@ -86,6 +83,14 @@ constexpr T eps(T x = 1.) {
     );
 
     return std::nextafter(x, std::numeric_limits<T>::infinity()) - x;
+}
+
+inline bool finite_nonneg(f64 v) {
+    return std::isfinite(v) && v >= 0.0;
+}
+
+inline bool finite_pos(f64 v) {
+    return std::isfinite(v) && v > 0.0;
 }
 
 } // namespace sOPT

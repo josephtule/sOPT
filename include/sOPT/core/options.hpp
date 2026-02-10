@@ -88,19 +88,38 @@ struct DiagnosticsOptions {
     bool record_qn_curvature = true;           // (QN) y^T s and normalized alignment
     bool record_hessian_diag_bounds = true;    // min/max diag(H)
 
-    // ConditionEstimateMode cond_mode = ConditionEstimateMode::diagonal_proxy;
-    // i32 cond_power_iters = 6;
-    // f64 cond_eps = 1e-12;
+    ConditionEstimateMode cond_mode = ConditionEstimateMode::diagonal_proxy;
+    i32 cond_power_iters = 6;
+    f64 cond_eps = 1e-12;
+};
+
+struct NewtonOptions {
+    f64 damping0 = 1e-6;
+    f64 damping_scale = 10.0;
+    i32 damping_max_tries = 10;
+};
+
+struct LBFGSOptions {
+    i32 memory = 20;
+    bool h0_auto_scale = true;
+    f64 h0_scale_min = 1e-8;
+    f64 h0_scale_max = 1e+8;
 };
 
 struct Options {
+    // Core options
     TerminationOptions term;
     FDOptions fd;
-    LineSearchOptions ls;
     CacheOptions cache;
     EvalLimitOptions limits;
     DiagnosticsOptions diag;
 
+    // Situational options
+    LineSearchOptions ls;
+    NewtonOptions newton;
+    LBFGSOptions lbfgs;
+
+    // Trace Options
     TraceLevel trace_level = TraceLevel::off;
     i32 trace_reserve = 0; // 0 => reserver max_iters + 1
 };

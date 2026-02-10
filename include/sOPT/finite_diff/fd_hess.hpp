@@ -10,7 +10,7 @@
 namespace sOPT {
 template <typename OracleT>
 inline bool
-fd_hessian_forward(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-8) {
+fd_hessian_forward(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-8) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd gx(n);
@@ -30,7 +30,7 @@ fd_hessian_forward(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-8
 
 template <typename OracleT>
 inline bool
-fd_hessian_backward(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-8) {
+fd_hessian_backward(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-8) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd gx(n);
@@ -50,7 +50,7 @@ fd_hessian_backward(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-
 
 template <typename OracleT>
 inline bool
-fd_hessian_central(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
+fd_hessian_central(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd xph = x;
@@ -76,7 +76,7 @@ fd_hessian_central(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6
 
 template <typename OracleT>
 inline bool
-fd_hessian_forward_2(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
+fd_hessian_forward_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd gx(n);
@@ -102,7 +102,7 @@ fd_hessian_forward_2(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e
 
 template <typename OracleT>
 inline bool
-fd_hessian_backward_2(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
+fd_hessian_backward_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd gx(n);
@@ -128,7 +128,7 @@ fd_hessian_backward_2(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1
 
 template <typename OracleT>
 inline bool
-fd_hessian_central_2(OracleT oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
+fd_hessian_central_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-6) {
     const i32 n = static_cast<i32>(x.size());
 
     vecXd xph = x;

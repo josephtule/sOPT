@@ -4,6 +4,7 @@
 #include "sOPT/core/typedefs.hpp"
 #include "sOPT/core/util.hpp"
 #include "sOPT/core/vecdefs.hpp"
+#include "sOPT/finite_diff/fd_grad.hpp"
 #include "sOPT/problem/traits.hpp"
 #include <cmath>
 
@@ -44,7 +45,15 @@ class Oracle {
             case FallbackGrad::fd_central:
                 if (!fd_gradient_central(*this, x, g, opt_.fd.eps)) return false;
                 break;
-                // TODO: add additional numerical gradients
+            case FallbackGrad::fd_forward_2:
+                if (!fd_gradient_forward_2(*this, x, g, opt_.fd.eps)) return false;
+                break;
+            case FallbackGrad::fd_backward_2:
+                if (!fd_gradient_backward_2(*this, x, g, opt_.fd.eps)) return false;
+                break;
+            case FallbackGrad::fd_central_2:
+                if (!fd_gradient_central_2(*this, x, g, opt_.fd.eps)) return false;
+                break;
             }
         }
         if (!g.allFinite()) return false;
@@ -68,6 +77,15 @@ class Oracle {
                 break;
             case FallbackHess::fd_central:
                 if (!fd_hessian_central(*this, x, H, opt_.fd.eps)) return false;
+                break;
+            case FallbackHess::fd_forward_2:
+                if (!fd_hessian_forward_2(*this, x, H, opt_.fd.eps)) return false;
+                break;
+            case FallbackHess::fd_backward_2:
+                if (!fd_hessian_backward_2(*this, x, H, opt_.fd.eps)) return false;
+                break;
+            case FallbackHess::fd_central_2:
+                if (!fd_hessian_central_2(*this, x, H, opt_.fd.eps)) return false;
                 break;
             }
         }
@@ -96,6 +114,12 @@ class Oracle {
                 return fd_hv_backward(*this, x, v, Hv, opt_.fd.hv_eps);
             case FallbackHv::fd_central:
                 return fd_hv_central(*this, x, v, Hv, opt_.fd.hv_eps);
+            case FallbackHv::fd_forward_2:
+                return fd_hv_forward_2(*this, x, v, Hv, opt_.fd.hv_eps);
+            case FallbackHv::fd_backward_2:
+                return fd_hv_backward_2(*this, x, v, Hv, opt_.fd.hv_eps);
+            case FallbackHv::fd_central_2:
+                return fd_hv_central_2(*this, x, v, Hv, opt_.fd.hv_eps);
             }
         }
         return false;
@@ -119,6 +143,7 @@ class Oracle {
     u64 h_cache_misses() const { return h_cache_.misses; }
 
     // limits
+    static inline bool limit_enabled_(i32 v) { return v >= 0; }
     bool f_limit_reached() const {
         return limit_enabled_(opt_.limits.max_f_evals)
                && (f_evals_ >= opt_.limits.max_f_evals);

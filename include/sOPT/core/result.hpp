@@ -2,6 +2,7 @@
 
 #include "sOPT/core/callback.hpp"
 #include "sOPT/core/options.hpp"
+#include "sOPT/core/status.hpp"
 #include "sOPT/core/trace.hpp"
 #include "sOPT/core/vecdefs.hpp"
 #include <optional>
@@ -9,6 +10,8 @@
 namespace sOPT {
 
 struct Result {
+    Status status = Status::invalid_input;
+
     vecXd x;
     f64 f = 0.0;
     f64 grad_norm = 0.0;
@@ -58,6 +61,13 @@ struct Result {
             break;
         case TraceLevel::off: [[unlikely]]; break; // unreachable
         }
+    }
+
+    template <typename OracleT>
+    void sync_eval_counts(OracleT& oracle) {
+        f_evals = oracle.f_evals();
+        g_evals = oracle.g_evals();
+        h_evals = oracle.h_evals();
     }
 };
 
