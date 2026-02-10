@@ -80,12 +80,14 @@ int main() {
     // fixed-step baseline
     opt.ls.alpha_fixed = 1e-3;
 
-    // auto obj = RosenbrockAnalytic{};
-    // Result res = gradient_descent(obj, x0, opt, Armijo{});
-    // std::println("Analytic:");
-    // print_sOPT_results(res);
-    // std::println();
+    // expect to converge via gradient norm
+    auto obj = RosenbrockAnalytic{};
+    Result res = gradient_descent(obj, x0, opt, Armijo{});
+    std::println("Analytic:");
+    print_sOPT_results(res);
+    std::println();
 
+    // expect to exceed f_evals limit
     auto obj2 = RosenbrockFDGrad{};
     Result res2 = gradient_descent(obj2, x0, opt, Armijo{});
     std::println("FD Gradient:");

@@ -116,13 +116,6 @@ using mat10f = eig::Matrix<f32, 10, 10>;
 using mat11f = eig::Matrix<f32, 11, 11>;
 using mat12f = eig::Matrix<f32, 12, 12>;
 
-// template <typename Derived>
-// void println(const eig::MatrixBase<Derived>& m) {
-//     std::ostringstream oss;
-//     oss << m;
-//     std::println("{}", oss.str());
-// }
-
 // Eigen Cheatsheet ------------------------------------------------------------
 // Read-only vector
 // void f(const eig::Ref<const eig::VectorXd>& v);
@@ -150,13 +143,9 @@ eig::Ref:
     void f(eig::Ref<eig::MatrixXd> M);
 
 - Non-owning view into existing Eigen data
-- Clean, concrete type inside function
 - No copy for compatible memory-backed inputs
 - May create temporary for expressions
 - Best for public APIs and fixed shapes/layouts
-
-Rule:
-    Internal math → templates
-    Public interfaces → eig::Ref
 ----------------------------------------------------------------------------- */
+
 } // namespace sOPT
