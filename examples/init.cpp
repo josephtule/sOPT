@@ -1,6 +1,9 @@
 #include "sOPT/algorithms/gradient_descent.hpp"
 #include "sOPT/core/result.hpp"
 #include "sOPT/sOPT.hpp"
+#include "sOPT/step_size/armijo.hpp"
+#include "sOPT/step_size/goldstein.hpp"
+#include "sOPT/step_size/wolfe.hpp"
 
 #include <print>
 using namespace sOPT;
@@ -82,17 +85,17 @@ int main() {
 
     // expect to converge via gradient norm
     auto obj = RosenbrockAnalytic{};
-    Result res = gradient_descent(obj, x0, opt, Armijo{});
+    Result res = gradient_descent(obj, x0, opt, Goldstein{});
     std::println("Analytic:");
     print_sOPT_results(res);
     std::println();
 
-    // expect to exceed f_evals limit
-    auto obj2 = RosenbrockFDGrad{};
-    Result res2 = gradient_descent(obj2, x0, opt, Armijo{});
-    std::println("FD Gradient:");
-    print_sOPT_results(res2);
-    std::println();
+    // // expect to exceed f_evals limit
+    // auto obj2 = RosenbrockFDGrad{};
+    // Result res2 = gradient_descent(obj2, x0, opt, Armijo{});
+    // std::println("FD Gradient:");
+    // print_sOPT_results(res2);
+    // std::println();
 
     return 0;
 }
