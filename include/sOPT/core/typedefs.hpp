@@ -1,0 +1,31 @@
+#pragma once
+
+#include <complex>
+#include <cstdint>
+#include <unordered_map>
+#include <vector>
+
+namespace sOPT {
+
+// Type aliases
+using f32 = float;
+using f64 = double;
+using c64 = std::complex<f32>;
+using c128 = std::complex<f64>;
+
+using i8 = int8_t;
+using i16 = int16_t;
+using i32 = int32_t;
+using i64 = int64_t;
+using uint = unsigned int;
+using u8 = uint8_t;
+using u16 = uint16_t;
+using u32 = uint32_t;
+using u64 = uint64_t;
+
+template <class T>
+using svec = std::vector<T>;
+template <class T1, class T2>
+using umap = std::unordered_map<T1, T2>;
+
+} // namespace sOPT

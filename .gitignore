@@ -1,0 +1,7 @@
+**/build/
+**/.cache/
+**/.DS_Store
+**/internal/
+**/build_ci/
+**/site/
+**/Tutorial/for_obsidian.md
