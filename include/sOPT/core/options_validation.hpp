@@ -107,19 +107,19 @@ inline OptionsValidationResult validate_options(const Options& opt) {
             "ls.alpha_max must be finite, > 0, and >= ls.alpha0"
         );
     }
-    if (!(std::isfinite(opt.ls.rho) && opt.ls.rho > 0.0 && opt.ls.rho < 1.0)) {
+    if (!(isfinite(opt.ls.rho) && opt.ls.rho > 0.0 && opt.ls.rho < 1.0)) {
         return options_invalid(
             OptionsValidationError::ls_rho_out_of_range,
             "ls.rho must satisfy 0 < rho < 1"
         );
     }
-    if (!(std::isfinite(opt.ls.c1) && opt.ls.c1 > 0.0 && opt.ls.c1 < 1.0)) {
+    if (!(isfinite(opt.ls.c1) && opt.ls.c1 > 0.0 && opt.ls.c1 < 1.0)) {
         return options_invalid(
             OptionsValidationError::ls_c1_out_of_range,
             "ls.c1 must satisfy 0 < c1 < 1"
         );
     }
-    if (!(std::isfinite(opt.ls.c2) && opt.ls.c2 > 0.0 && opt.ls.c2 < 1.0)) {
+    if (!(isfinite(opt.ls.c2) && opt.ls.c2 > 0.0 && opt.ls.c2 < 1.0)) {
         return options_invalid(
             OptionsValidationError::ls_c2_out_of_range,
             "ls.c2 must satisfy 0 < c2 < 1"

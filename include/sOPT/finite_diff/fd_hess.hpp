@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Eigen/Core"
+#include "sOPT/core/math.hpp"
 #include "sOPT/core/vecdefs.hpp"
 
 #include <cmath>
@@ -156,7 +157,8 @@ fd_hessian_central_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1
         xp2h(j) = x(j);
     }
     // make H symmetric 
-    H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    // H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    sym_copy_lotohi_ip(H);
     return H.allFinite();
 }
 

@@ -7,9 +7,16 @@ namespace sOPT {
 
 struct IterDiagnostics {
     bool accepted = true;
-    
+
     // directional derivative
-    f64 gTp = std::numeric_limits<f64>::quiet_NaN();
+    f64 gTp = qNaN<f64>;
+
+    // newton
+    f64 hdiag_min = qNaN<f64>;
+    f64 hdiag_max = qNaN<f64>;
+    f64 cond_est = qNaN<f64>;
+
+    // quasi-newton
 };
 
 struct IterInfo {

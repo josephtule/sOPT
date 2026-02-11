@@ -1,4 +1,5 @@
 #include "sOPT/algorithms/gradient_descent.hpp"
+#include "sOPT/algorithms/newton.hpp"
 #include "sOPT/core/result.hpp"
 #include "sOPT/sOPT.hpp"
 #include "sOPT/step_size/armijo.hpp"
@@ -70,7 +71,7 @@ int main() {
 
     Options opt;
     opt.term.max_iters = 20000;
-    opt.term.grad_tol = 1e-8;
+    opt.term.grad_tol = 1e-10;
     opt.term.step_tol = 1e-12;
 
     // line search params
@@ -85,7 +86,7 @@ int main() {
 
     // expect to converge via gradient norm
     auto obj = RosenbrockAnalytic{};
-    Result res = gradient_descent(obj, x0, opt, Goldstein{});
+    Result res = newton(obj, x0, opt, Armijo{});
     std::println("Analytic:");
     print_sOPT_results(res);
     std::println();

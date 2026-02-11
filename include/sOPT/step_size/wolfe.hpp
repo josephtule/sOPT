@@ -43,13 +43,13 @@ inline StepAttempt wolfe_impl(
     auto phi = [&](f64 a, vecXd& xt, f64& ft) -> StepAttempt {
         xt.noalias() = x + a * p;
         if (!oracle.try_func(xt, ft)) return StepAttempt::eval_failed;
-        return std::isfinite(ft) ? StepAttempt::accepted : StepAttempt::eval_failed;
+        return isfinite(ft) ? StepAttempt::accepted : StepAttempt::eval_failed;
     };
     auto dphi = [&](ecref<vecXd> xt, f64& dphi_val) -> StepAttempt {
         if (!oracle.try_gradient(xt, g_trial)) return StepAttempt::eval_failed;
         if (!g_trial.allFinite()) return StepAttempt::eval_failed;
         dphi_val = g_trial.dot(p);
-        return std::isfinite(dphi_val) ? StepAttempt::accepted : StepAttempt::eval_failed;
+        return isfinite(dphi_val) ? StepAttempt::accepted : StepAttempt::eval_failed;
     };
     auto wolfe_ok = [&](f64 a, f64 ft, f64 dft) -> bool {
         if (!(ft <= f0 + c1 * a * g0p)) return false;
@@ -93,7 +93,7 @@ inline StepAttempt wolfe_impl(
     f64 a_prev = 0.0;
     f64 f_prev = f0;
     alpha = opt.ls.alpha0;
-    if (!(alpha > 0.0) || !std::isfinite(alpha)) // TODO: maybe remove this
+    if (!(alpha > 0.0) || !isfinite(alpha)) // TODO: maybe remove this
         return StepAttempt::line_search_failed;
 
     x_next.resize(x.size()); // TODO: maybe remove this

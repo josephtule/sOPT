@@ -34,7 +34,13 @@ Result bfgs(
     const StepStrategy& step_strategy,
     const IterCallback& on_iter = {},
     const StopCallback& should_stop = {}
-) {}
+) {
+    Oracle<Obj> oracle(obj, opt);
+    Result res;
+    const i32 n = static_cast<i32>(x0.size());
 
-
+    vecXd g(n);
+    vecXd g_prev(n);
 }
+
+} // namespace sOPT

@@ -40,7 +40,7 @@ struct TryFull {
             x_next.noalias() = x + alpha * p;
             if (!oracle.try_func(x_next, f_next)) return StepAttempt::eval_failed;
 
-            if (std::isfinite(f_next) && (f_next <= f0 + opt.ls.c1 * alpha * g0p)) {
+            if (isfinite(f_next) && (f_next <= f0 + opt.ls.c1 * alpha * g0p)) {
                 return StepAttempt::accepted;
             }
         }

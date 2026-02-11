@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sOPT/core/math.hpp"
 #include "sOPT/core/options.hpp"
 #include "sOPT/core/options_validation.hpp"
 #include "sOPT/core/result.hpp"
@@ -47,7 +48,7 @@ inline EvalStatus eval_func(OracleT& oracle, ecref<vecXd> x, f64& f) {
     if (!oracle.try_func(x, f)) {
         return oracle.f_limit_reached() ? EvalStatus::max_evals : EvalStatus::eval_failed;
     }
-    return std::isfinite(f) ? EvalStatus::ok : EvalStatus::eval_failed;
+    return isfinite(f) ? EvalStatus::ok : EvalStatus::eval_failed;
 }
 
 template <typename OracleT>
@@ -68,19 +69,18 @@ inline EvalStatus eval_hess(OracleT& oracle, ecref<vecXd> x, eref<matXd> H) {
     return H.allFinite() ? EvalStatus::ok : EvalStatus::eval_failed;
 }
 
-
 // Tolerance and termination ---------------------------------------------------
 struct TerminationScales {
+    // used for relative tolerance termination
     f64 grad_ref = 1.0;
     f64 step_ref = 1.0;
 };
 
 inline f64 sanitize_tol_nonneg(f64 v) {
-    return (std::isfinite(v) && v > 0.0) ? v : 0.0;
+    return (isfinite(v) && v > 0.0) ? v : 0.0;
 }
-
 inline f64 sanitize_ref_pos(f64 v) {
-    return (std::isfinite(v) && v > 0.0) ? v : 1.0;
+    return (isfinite(v) && v > 0.0) ? v : 1.0;
 }
 
 inline f64
@@ -104,14 +104,14 @@ inline bool is_step_converged(
     const Options& opt,
     const TerminationScales* scales = nullptr
 ) {
-    if (!std::isfinite(step_norm)) return false;
+    if (!isfinite(step_norm)) return false;
     return step_norm <= step_tol_effective(opt, scales);
 }
 
 inline bool is_f_change_converged(f64 f_prev, f64 f_curr, const Options& opt) {
     const f64 f_tol = sanitize_tol_nonneg(opt.term.f_tol);
     if (f_tol <= 0.0) return false;
-    if (!std::isfinite(f_prev) || !std::isfinite(f_curr)) return false;
+    if (!isfinite(f_prev) || !isfinite(f_curr)) return false;
     const f64 scale = std::max(1.0, std::abs(f_prev));
     return std::abs(f_curr - f_prev) <= f_tol * scale;
 }
@@ -140,14 +140,15 @@ inline std::optional<Status> init_common(
         return res.status;
     }
 
-    // TODO: maybe move out of this, only validate options once
-    const OptionsValidationResult v = validate_options(opt); 
-    if (!v.ok) {
-        res.status = Status::invalid_input;
-        return res.status;
+    if (opt.validate_options) {
+        const OptionsValidationResult v = validate_options(opt);
+        if (!v.ok) {
+            res.status = Status::invalid_input;
+            return res.status;
+        }
     }
 
-    {
+    { // try first function eval
         const EvalStatus stf = eval_func(oracle, res.x, f);
         if (stf != EvalStatus::ok) {
             res.status = to_status(stf);
@@ -155,7 +156,7 @@ inline std::optional<Status> init_common(
         }
     }
 
-    {
+    { // try first gradient eval
         const EvalStatus stg = eval_grad(oracle, res.x, g);
         if (stg != EvalStatus::ok) {
             res.status = to_status(stg);
@@ -171,7 +172,7 @@ inline std::optional<Status> init_common(
     IterDiagnostics diag;
     res.trace_push(opt, oracle, f, gnorm, 0.0, 0.0, diag);
 
-    if (!std::isfinite(f) || !std::isfinite(gnorm)) {
+    if (!isfinite(f) || !isfinite(gnorm)) {
         res.status = Status::nan_detected;
         return res.status;
     }
@@ -193,16 +194,13 @@ inline std::optional<Status> init_common(
     return std::nullopt;
 }
 
-EIGEN_STRONG_INLINE std::optional<Status> pre_step_checks(
+inline std::optional<Status> pre_step_checks(
     f64 f,
     f64 gnorm,
     const Options& opt,
     const TerminationScales* scales = nullptr
 ) {
-    // Status precedence (before taking a step):
-    // 1) invalid numeric state => nan_detected
-    // 2) first-order convergence => converged_grad
-    if (!std::isfinite(f) || !std::isfinite(gnorm)) {
+    if (!isfinite(f) || !isfinite(gnorm)) {
         return Status::nan_detected;
     }
     if (gnorm <= grad_tol_effective(opt, scales)) {
@@ -211,20 +209,20 @@ EIGEN_STRONG_INLINE std::optional<Status> pre_step_checks(
     return std::nullopt;
 }
 
-EIGEN_STRONG_INLINE std::optional<Status> check_step_convergence(
+inline std::optional<Status> check_step_convergence(
     f64 step_norm,
     f64 f_prev,
     f64 f_curr,
     const Options& opt,
     const TerminationScales* scales = nullptr
 ) {
-    if (!std::isfinite(step_norm)) {
+    if (!isfinite(step_norm)) {
         return Status::nan_detected;
     }
     if (is_step_converged(step_norm, opt, scales)) {
         return Status::converged_step;
     }
-    if (!std::isfinite(f_prev) || !std::isfinite(f_curr)) {
+    if (!isfinite(f_prev) || !isfinite(f_curr)) {
         return Status::nan_detected;
     }
     if (is_f_change_converged(f_prev, f_curr, opt)) {
@@ -234,15 +232,8 @@ EIGEN_STRONG_INLINE std::optional<Status> check_step_convergence(
 }
 
 // compatibility overload
-EIGEN_STRONG_INLINE std::optional<Status>
-check_step_convergence(f64 step_norm, const Options& opt) {
-    return check_step_convergence(
-        step_norm,
-        std::numeric_limits<f64>::quiet_NaN(),
-        std::numeric_limits<f64>::quiet_NaN(),
-        opt,
-        nullptr
-    );
+inline std::optional<Status> check_step_convergence(f64 step_norm, const Options& opt) {
+    return check_step_convergence(step_norm, qNaN<f64>, qNaN<f64>, opt, nullptr);
 }
 
 // handles accepted step bookkeeping
@@ -409,5 +400,102 @@ inline StepStatus run_step(
     return map_raw(raw_result);
 }
 
+inline f64 condition_estimate_power_iteration(ecref<matXd> H, i32 iters, f64 eps) {
+    // checks condition estimate via power iteration
+    // the matrix condition number indicates how stable the inversion is
+    const i32 n = static_cast<i32>(H.rows());
+    if (n <= 0 || H.cols() != n) {
+        return qNaN<f64>;
+    }
 
+    // Use a symmetrized copy for robust Rayleigh/inverse-iteration estimates.
+    matXd Hsym = sym_transpose_avg(H);
+    if (!Hsym.allFinite()) return qNaN<f64>;
+
+    const i32 kmax = std::max(1, iters);
+    const f64 eps_safe = std::max(eps, 1e-16);
+
+    vecXd v = vecXd::Ones(n);
+    f64 vnorm = v.norm();
+    if (!(vnorm > eps_safe) || !isfinite(vnorm)) return qNaN<f64>;
+
+    v /= vnorm;
+
+    // Power iteration to estimate largest eigenvalue of H
+    // ref: https://en.wikipedia.org/wiki/Power_iteration
+    f64 lambda_max = qNaN<f64>;
+    for (i32 k = 0; k < kmax; k++) {
+        vecXd w = Hsym * v;
+        const f64 wn = w.norm();
+        if (!(wn > eps_safe) || !isfinite(wn)) return qNaN<f64>;
+        v = w / wn;
+        lambda_max = std::abs(v.dot(Hsym * v));
+    }
+    if (!(lambda_max > eps_safe) || !isfinite(lambda_max)) return qNaN<f64>;
+
+    // Check Hsym nonsingular
+    eig::LDLT<matXd> ldlt(Hsym);
+    if (ldlt.info() != eig::Success) return qNaN<f64>;
+
+    // check smallest on factor Hsym diag
+    const auto D = ldlt.vectorD();
+    if (D.size() <= 0) return qNaN<f64>;
+    const f64 min_abs_diag = D.cwiseAbs().minCoeff();
+    if (!(min_abs_diag > eps_safe) || !isfinite(min_abs_diag)) return qNaN<f64>;
+
+    vecXd u = vecXd::Ones(n);
+    f64 unorm = u.norm();
+    if (!(unorm > eps_safe) || !isfinite(unorm)) return qNaN<f64>;
+    u /= unorm;
+    // Inverse power iteration to find smallest eigenvalue
+    f64 lambda_min = qNaN<f64>;
+    for (i32 k = 0; k < kmax; ++k) {
+        vecXd z = ldlt.solve(u);
+        const f64 zn = z.norm();
+        if (!(zn > eps_safe) || !isfinite(zn)) return qNaN<f64>;
+        u = z / zn;
+        lambda_min = std::abs(u.dot(Hsym * u));
+    }
+    if (!(lambda_min > eps_safe) || !isfinite(lambda_min)) return qNaN<f64>;
+    const f64 cond = lambda_max / lambda_min;
+    return (isfinite(cond) && cond >= 1.0) ? cond : qNaN<f64>;
+}
+
+inline void maybe_fill_hessian_diagnostics(
+    const Options& opt,
+    ecref<matXd> H,
+    IterDiagnostics& diag
+) {
+    if (!opt.diag.enabled) return;
+    if (H.rows() <= 0 || H.cols() != H.rows()) return;
+
+    if (opt.diag.record_hessian_diag_bounds) {
+        const auto d = H.diagonal();
+        diag.hdiag_min = d.minCoeff();
+        diag.hdiag_max = d.maxCoeff();
+    }
+
+    const f64 eps = std::max(opt.diag.cond_eps, 1e-16);
+    switch (opt.diag.cond_mode) {
+    case ConditionEstimateMode::off: return;
+    case ConditionEstimateMode::diagonal_proxy: {
+        // cheaper than power iteration
+        const auto d = H.diagonal().cwiseAbs();
+        const f64 dmax = d.maxCoeff();
+        const f64 dmin = d.minCoeff();
+        if (isfinite(dmax) && isfinite(dmin)) {
+            diag.cond_est = dmax / std::max(dmin, eps);
+        }
+        return;
+    }
+    case ConditionEstimateMode::power_iteration:
+        // expensive
+        diag.cond_est = condition_estimate_power_iteration(
+            H,
+            opt.diag.cond_power_iters,
+            opt.diag.cond_eps
+        );
+        return;
+    }
+}
 } // namespace sOPT::detail

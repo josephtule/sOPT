@@ -86,11 +86,37 @@ constexpr T eps(T x = 1.) {
 }
 
 inline bool finite_nonneg(f64 v) {
-    return std::isfinite(v) && v >= 0.0;
+    return isfinite(v) && v >= 0.0;
 }
 
 inline bool finite_pos(f64 v) {
-    return std::isfinite(v) && v > 0.0;
+    return isfinite(v) && v > 0.0;
+}
+
+// symmetrize in place
+inline void sym_transpose_avg_ip(eref<matXd> M) {
+    M = 0.5 * (M + M.transpose());
+}
+inline void sym_copy_lotohi_ip(eref<matXd> M) {
+    M.template triangularView<esUp>() = M.transpose().template triangularView<esUp>();
+}
+inline void sym_copy_hitolo_ip(eref<matXd> M) {
+    M.template triangularView<esLo>() = M.transpose().template triangularView<esLo>();
+}
+
+// return symmetrized matrix
+inline matXd sym_transpose_avg(ecref<matXd> M) {
+    return 0.5 * (M + M.transpose());
+}
+inline matXd sym_copy_lotohi(ecref<matXd> M) {
+    matXd out = M;
+    out.template triangularView<esUp>() = out.transpose().template triangularView<esUp>();
+    return out;
+}
+inline matXd sym_copy_hitolo(ecref<matXd> M) {
+    matXd out = M;
+    out.template triangularView<esLo>() = out.transpose().template triangularView<esLo>();
+    return out;
 }
 
 } // namespace sOPT

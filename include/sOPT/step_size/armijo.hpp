@@ -28,7 +28,7 @@ struct Armijo {
         const f64 rho = opt.ls.rho;
         alpha = opt.ls.alpha0;
         // TODO: remove these checks, checked in options validation already
-        if (!(alpha > 0.0) || !std::isfinite(alpha))
+        if (!(alpha > 0.0) || !isfinite(alpha))
             return StepAttempt::line_search_failed;
         if (!(rho > 0.0 && rho < 1.0)) return StepAttempt::line_search_failed;
         if (!(c1 > 0.0 && c1 < 1.0)) return StepAttempt::line_search_failed;
@@ -40,11 +40,11 @@ struct Armijo {
         for (i32 k = 0; k < opt.ls.max_iters; k++) {
             x_next.noalias() = x + alpha * p; // candidate
             if (!oracle.try_func(x_next, f_next)) return StepAttempt::eval_failed;
-            if (std::isfinite(f_next) && (f_next <= fx + c1 * alpha * gTp)) {
+            if (isfinite(f_next) && (f_next <= fx + c1 * alpha * gTp)) {
                 return StepAttempt::accepted;
             }
             alpha *= rho;
-            if (!(alpha > 0.0) || !std::isfinite(alpha))
+            if (!(alpha > 0.0) || !isfinite(alpha))
                 return StepAttempt::line_search_failed;
         }
 

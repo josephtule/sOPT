@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <unordered_map>
 #include <vector>
+#include <limits>
 
 namespace sOPT {
 
@@ -27,5 +28,10 @@ template <class T>
 using svec = std::vector<T>;
 template <class T1, class T2>
 using umap = std::unordered_map<T1, T2>;
+
+template<typename T>
+inline constexpr T qNaN = std::numeric_limits<T>::quiet_NaN();
+
+using std::isfinite;
 
 } // namespace sOPT

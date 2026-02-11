@@ -31,14 +31,14 @@ struct Goldstein {
         f64 alo = 0.0;
         f64 ahi = std::numeric_limits<f64>::infinity();
         alpha = opt.ls.alpha0;
-        if (!(alpha > 0.0) || !std::isfinite(alpha))
+        if (!(alpha > 0.0) || !isfinite(alpha))
             return StepAttempt::line_search_failed;
 
         x_next.resize(x.size());
         for (i32 k = 0; k < opt.ls.max_iters; k++) {
             x_next.noalias() = x + alpha * p;
             if (!oracle.try_func(x_next, f_next)) return StepAttempt::eval_failed;
-            if (!std::isfinite(f_next)) return StepAttempt::eval_failed;
+            if (!isfinite(f_next)) return StepAttempt::eval_failed;
 
             const f64 upper = f0 + c * alpha * g0p;
             const f64 lower = f0 + (1.0 - c) * alpha * g0p;
@@ -50,7 +50,7 @@ struct Goldstein {
             }
             if (f_next < lower) {
                 alo = alpha;
-                if (std::isfinite(ahi))
+                if (isfinite(ahi))
                     alpha = 0.5 * (alo + ahi); // bisection
                 else
                     alpha *= 2.0;

@@ -122,6 +122,9 @@ struct Options {
     // Trace Options
     TraceLevel trace_level = TraceLevel::off;
     i32 trace_reserve = 0; // 0 => reserver max_iters + 1
+
+    bool validate_options = true; // set false if solver called multiple times (i.e. in
+                                  // optimal control problems)
 };
 
 } // namespace sOPT

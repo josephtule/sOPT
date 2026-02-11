@@ -24,7 +24,7 @@ class Oracle {
         if (!can_eval_f_()) return false;
         ++f_evals_;
         fx = obj_.func(x);
-        if (!std::isfinite(fx)) return false;
+        if (!isfinite(fx)) return false;
         cache_store_(f_cache_, x, fx);
         return true;
     }
