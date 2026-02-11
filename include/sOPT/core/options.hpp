@@ -41,7 +41,7 @@ struct FDOptions {
 };
 
 struct LineSearchOptions {
-    bool try_full_step = false;
+    bool try_full_step = true;
 
     f64 alpha_fixed = 1e-2; // fixed-step GD
     f64 alpha0 = 1.0;       // initial step

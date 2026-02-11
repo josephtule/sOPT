@@ -37,8 +37,29 @@ target_link_libraries(${TARGET_NAME} INTERFACE Eigen3::Eigen)
 
 # examples ---------------------------------------------------------------------
 if(SOPT_BUILD_EXAMPLES)
-    add_executable(init examples/init.cpp)
-    target_link_libraries(init PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
+    set(SRC_NAME sandbox)
+    add_executable(${SRC_NAME} examples/${SRC_NAME}.cpp)
+    target_link_libraries(${SRC_NAME} PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
+
+    set(SRC_NAME gradient_descent)
+    add_executable(${SRC_NAME} examples/${SRC_NAME}.cpp)
+    target_link_libraries(${SRC_NAME} PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
+
+    set(SRC_NAME newton)
+    add_executable(${SRC_NAME} examples/${SRC_NAME}.cpp)
+    target_link_libraries(${SRC_NAME} PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
+
+    set(SRC_NAME bfgs)
+    add_executable(${SRC_NAME} examples/${SRC_NAME}.cpp)
+    target_link_libraries(${SRC_NAME} PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
+
+    set(SRC_NAME lbfgs)
+    add_executable(${SRC_NAME} examples/${SRC_NAME}.cpp)
+    target_link_libraries(${SRC_NAME} PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
+
+    set(SRC_NAME step_size)
+    add_executable(${SRC_NAME} examples/${SRC_NAME}.cpp)
+    target_link_libraries(${SRC_NAME} PRIVATE ${TARGET_NAME}::${TARGET_NAME}) 
 endif()
 
 # tests ------------------------------------------------------------------------

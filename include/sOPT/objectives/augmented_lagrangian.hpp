@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sOPT/core/vecdefs.hpp"
+#include <cassert>
 
 namespace sOPT {
 struct AugmentedLagrangian {

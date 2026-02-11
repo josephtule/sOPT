@@ -3,6 +3,7 @@
 #include "sOPT/core/typedefs.hpp"
 
 namespace sOPT {
+
 template <typename T>
 inline T sat_mul(T a, T b) {
     constexpr T maxv = std::numeric_limits<T>::max();

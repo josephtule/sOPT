@@ -10,3 +10,4 @@
 #include "sOPT/core/vecdefs.hpp"
 #include "sOPT/core/constants.hpp"
 #include "sOPT/core/callback.hpp"
+#include "sOPT/core/display.hpp"
