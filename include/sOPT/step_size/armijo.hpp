@@ -4,8 +4,6 @@
 #include "sOPT/core/vecdefs.hpp"
 #include "sOPT/step_size/step_attempt.hpp"
 
-#include <cmath>
-
 namespace sOPT {
 
 // Armijo/Wolfe-Sufficient Decrease Condition:
@@ -28,8 +26,7 @@ struct Armijo {
         const f64 rho = opt.ls.rho;
         alpha = opt.ls.alpha0;
         // TODO: remove these checks, checked in options validation already
-        if (!(alpha > 0.0) || !isfinite(alpha))
-            return StepAttempt::line_search_failed;
+        if (!(alpha > 0.0) || !isfinite(alpha)) return StepAttempt::line_search_failed;
         if (!(rho > 0.0 && rho < 1.0)) return StepAttempt::line_search_failed;
         if (!(c1 > 0.0 && c1 < 1.0)) return StepAttempt::line_search_failed;
 

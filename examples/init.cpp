@@ -1,3 +1,4 @@
+#include "sOPT/algorithms/bfgs.hpp"
 #include "sOPT/algorithms/gradient_descent.hpp"
 #include "sOPT/algorithms/newton.hpp"
 #include "sOPT/core/result.hpp"
@@ -86,7 +87,7 @@ int main() {
 
     // expect to converge via gradient norm
     auto obj = RosenbrockAnalytic{};
-    Result res = newton(obj, x0, opt, Armijo{});
+    Result res = bfgs(obj, x0, opt, WolfeStrong{});
     std::println("Analytic:");
     print_sOPT_results(res);
     std::println();

@@ -9,7 +9,6 @@
 
 #include <Eigen/Cholesky>
 #include <Eigen/LU>
-#include <cmath>
 
 namespace sOPT {
 // Damped Newton (Globalized Newton)

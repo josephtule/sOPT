@@ -4,8 +4,6 @@
 #include "sOPT/core/vecdefs.hpp"
 #include "sOPT/step_size/step_attempt.hpp"
 
-#include <cmath>
-
 namespace sOPT {
 
 struct FixedStep {
@@ -31,8 +29,7 @@ struct FixedStep {
 
         if (!oracle.try_func(x_next, f_next)) return StepAttempt::eval_failed;
 
-        return isfinite(f_next) ? StepAttempt::accepted
-                                     : StepAttempt::eval_failed;
+        return isfinite(f_next) ? StepAttempt::accepted : StepAttempt::eval_failed;
     }
 };
 

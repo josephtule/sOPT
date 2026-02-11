@@ -1,13 +1,11 @@
 #pragma once
 
 #include "sOPT/core/options.hpp"
-#include "sOPT/core/status.hpp"
 #include "sOPT/core/vecdefs.hpp"
 #include "sOPT/step_size/step_attempt.hpp"
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 
 namespace sOPT {
 

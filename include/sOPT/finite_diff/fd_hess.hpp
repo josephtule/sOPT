@@ -25,7 +25,7 @@ fd_hessian_forward(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-
         H.col(j).noalias() = (gxph - gx) / h;
         xph(j) = x(j);
     }
-    H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    H.template triangularView<eSUp>() = H.template triangularView<eSUp>().transpose();
     return H.allFinite();
 }
 
@@ -45,7 +45,7 @@ fd_hessian_backward(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e
         H.col(j).noalias() = (gx - gxmh) / h;
         xmh(j) = x(j);
     }
-    H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    H.template triangularView<eSUp>() = H.template triangularView<eSUp>().transpose();
     return H.allFinite();
 }
 
@@ -69,7 +69,7 @@ fd_hessian_central(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1e-
         xph(j) = x(j);
     }
     // make H symmetric
-    H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    H.template triangularView<eSUp>() = H.template triangularView<eSUp>().transpose();
     return H.allFinite();
 }
 
@@ -97,7 +97,7 @@ fd_hessian_forward_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1
         xp2h(j) = x(j);
     }
     // make H symmetric 
-    H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    H.template triangularView<eSUp>() = H.template triangularView<eSUp>().transpose();
     return H.allFinite();
 }
 
@@ -123,7 +123,7 @@ fd_hessian_backward_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 
         xm2h(j) = x(j);
     }
     // make H symmetric 
-    H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
+    H.template triangularView<eSUp>() = H.template triangularView<eSUp>().transpose();
     return H.allFinite();
 }
 

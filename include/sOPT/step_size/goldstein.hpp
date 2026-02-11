@@ -4,7 +4,6 @@
 #include "sOPT/core/vecdefs.hpp"
 #include "sOPT/step_size/step_attempt.hpp"
 
-#include <cmath>
 #include <limits>
 #include <print>
 
@@ -31,8 +30,7 @@ struct Goldstein {
         f64 alo = 0.0;
         f64 ahi = std::numeric_limits<f64>::infinity();
         alpha = opt.ls.alpha0;
-        if (!(alpha > 0.0) || !isfinite(alpha))
-            return StepAttempt::line_search_failed;
+        if (!(alpha > 0.0) || !isfinite(alpha)) return StepAttempt::line_search_failed;
 
         x_next.resize(x.size());
         for (i32 k = 0; k < opt.ls.max_iters; k++) {

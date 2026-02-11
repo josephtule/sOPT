@@ -2,7 +2,7 @@
 
 #include "sOPT/core/constants.hpp"
 #include "sOPT/core/trace.hpp"
-#include "sOPT/core/vecdefs.hpp"
+#include "sOPT/core/typedefs.hpp"
 
 namespace sOPT {
 

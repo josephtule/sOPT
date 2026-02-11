@@ -17,6 +17,10 @@ struct IterDiagnostics {
     f64 cond_est = qNaN<f64>;
 
     // quasi-newton
+    f64 ys = qNaN<f64>;
+    f64 ys_cos = qNaN<f64>;
+
+
 };
 
 struct IterInfo {

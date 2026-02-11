@@ -98,10 +98,10 @@ inline void sym_transpose_avg_ip(eref<matXd> M) {
     M = 0.5 * (M + M.transpose());
 }
 inline void sym_copy_lotohi_ip(eref<matXd> M) {
-    M.template triangularView<esUp>() = M.transpose().template triangularView<esUp>();
+    M.template triangularView<eSUp>() = M.transpose().template triangularView<eSUp>();
 }
 inline void sym_copy_hitolo_ip(eref<matXd> M) {
-    M.template triangularView<esLo>() = M.transpose().template triangularView<esLo>();
+    M.template triangularView<eSLo>() = M.transpose().template triangularView<eSLo>();
 }
 
 // return symmetrized matrix
@@ -110,12 +110,12 @@ inline matXd sym_transpose_avg(ecref<matXd> M) {
 }
 inline matXd sym_copy_lotohi(ecref<matXd> M) {
     matXd out = M;
-    out.template triangularView<esUp>() = out.transpose().template triangularView<esUp>();
+    out.template triangularView<eSUp>() = out.transpose().template triangularView<eSUp>();
     return out;
 }
 inline matXd sym_copy_hitolo(ecref<matXd> M) {
     matXd out = M;
-    out.template triangularView<esLo>() = out.transpose().template triangularView<esLo>();
+    out.template triangularView<eSLo>() = out.transpose().template triangularView<eSLo>();
     return out;
 }
 

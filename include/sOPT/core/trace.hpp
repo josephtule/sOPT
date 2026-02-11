@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sOPT/core/vecdefs.hpp"
+#include "sOPT/core/typedefs.hpp"
 
 namespace sOPT {
 
@@ -23,7 +23,12 @@ struct Trace {
     svec<i32> h_evals;
 
     // Optionals
-
+    svec<f64> gTp;
+    svec<f64> ys;
+    svec<f64> ys_cos;
+    svec<f64> hdiag_min;
+    svec<f64> hdiag_max;
+    svec<f64> cond_est;
     // Reserve vectors
 
     void
@@ -42,6 +47,12 @@ struct Trace {
             alpha.reserve(n);
             if (with_diag) {
                 // Add optionals here
+                gTp.reserve(n);
+                ys.reserve(n);
+                ys_cos.reserve(n);
+                hdiag_min.reserve(n);
+                hdiag_max.reserve(n);
+                cond_est.reserve(n);
             }
             return;
         }

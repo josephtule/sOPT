@@ -11,7 +11,6 @@
 
 #include <Eigen/Cholesky>
 #include <cmath>
-#include <limits>
 #include <optional>
 #include <type_traits>
 
