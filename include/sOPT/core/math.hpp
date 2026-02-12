@@ -97,10 +97,10 @@ inline bool finite_pos(f64 v) {
 inline void sym_transpose_avg_ip(eref<matXd> M) {
     M = 0.5 * (M + M.transpose());
 }
-inline void sym_copy_lotohi_ip(eref<matXd> M) {
+inline void sym_lotohi_ip(eref<matXd> M) {
     M.template triangularView<eSUp>() = M.transpose().template triangularView<eSUp>();
 }
-inline void sym_copy_hitolo_ip(eref<matXd> M) {
+inline void sym_hitolo_ip(eref<matXd> M) {
     M.template triangularView<eSLo>() = M.transpose().template triangularView<eSLo>();
 }
 
@@ -108,12 +108,12 @@ inline void sym_copy_hitolo_ip(eref<matXd> M) {
 inline matXd sym_transpose_avg(ecref<matXd> M) {
     return 0.5 * (M + M.transpose());
 }
-inline matXd sym_copy_lotohi(ecref<matXd> M) {
+inline matXd sym_lotohi(ecref<matXd> M) {
     matXd out = M;
     out.template triangularView<eSUp>() = out.transpose().template triangularView<eSUp>();
     return out;
 }
-inline matXd sym_copy_hitolo(ecref<matXd> M) {
+inline matXd sym_hitolo(ecref<matXd> M) {
     matXd out = M;
     out.template triangularView<eSLo>() = out.transpose().template triangularView<eSLo>();
     return out;

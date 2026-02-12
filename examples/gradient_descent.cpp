@@ -1,5 +1,5 @@
 #include "sOPT/algorithms/gradient_descent.hpp"
-#include "sOPT/objectives/rosenbrock.hpp"
+#include "sOPT/bench/rosenbrock.hpp" 
 #include "sOPT/sOPT.hpp"
 
 #include <print>

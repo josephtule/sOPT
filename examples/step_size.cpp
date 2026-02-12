@@ -1,4 +1,4 @@
-#include "sOPT/objectives/rosenbrock.hpp"
+#include "sOPT/bench/rosenbrock.hpp"
 #include "sOPT/sOPT.hpp"
 #include "sOPT/step_size/fixed_step.hpp"
 #include "sOPT/step_size/goldstein.hpp"

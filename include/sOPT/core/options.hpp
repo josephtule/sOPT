@@ -36,7 +36,7 @@ struct FDOptions {
     FallbackGrad fallback_grad = FallbackGrad::fd_central;
     FallbackHess fallback_hess = FallbackHess::fd_central;
     FallbackHv fallback_hv = FallbackHv::fd_central;
-    f64 eps = 1e-8;
+    f64 eps = 1e-8; // TODO: separate gradient and hessian eps values
     f64 hv_eps = 1e-6;
 };
 
@@ -126,5 +126,11 @@ struct Options {
     bool validate_options = true; // set false if solver called multiple times (i.e. in
                                   // optimal control problems)
 };
+
+inline void set_realtime(Options& opt) {
+    opt.validate_options = false;
+    opt.trace_level = TraceLevel::off;
+    opt.diag.enabled = false;
+}
 
 } // namespace sOPT

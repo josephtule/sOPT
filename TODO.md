@@ -2,9 +2,10 @@
 
 ## Solvers
 - [x] gradient descent
-- [ ] bfgs
-- [ ] lbfgs
-- [ ] newton
+- [x] newton
+- [x] bfgs
+- [x] lbfgs
+- [x] dfp
 
 ## Step Strategies
 - [x] Armijo
@@ -16,7 +17,7 @@
 ## Testing
 - [ ] write tests
 
-## Examples
+## Example Objective Functions
 - [ ] Rosenbrock
 - [ ] Quadratic
 

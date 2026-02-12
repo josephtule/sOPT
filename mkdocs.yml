@@ -1,0 +1,82 @@
+site_name: sOPT Docs
+site_description: Optimization solver library documentation
+repo_url: https://github.com/josephtule/sOPT
+site_url: https://josephtule.github.io/sOPT/
+docs_dir: docs
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+markdown_extensions:
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+plugins:
+  - search
+  - to-pdf:
+      enabled_if_env: ENABLE_PDF_EXPORT
+      output_path: pdf/document.pdf
+      download_link: header
+      render_js: true
+      headless_chrome_path: /opt/homebrew/bin/chromium
+extra_javascript:
+  - javascripts/mathjax.js
+#   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js
+
+nav:
+  - Home: index.md
+  - Start:
+      - Repository Map: repo_map.md
+      - Notation Glossary: glossary.md
+  - Solvers:
+      - Gradient Descent: solvers/gradient_descent.md
+      - Newton: solvers/newton.md
+      - DFP: solvers/dfp.md
+      - BFGS: solvers/bfgs.md
+      - L-BFGS: solvers/lbfgs.md
+  - Step Size:
+      - Overview: step_size/README.md
+      - Fixed Step: step_size/fixed_step.md
+      - TryFull: step_size/try_full.md
+      - Armijo: step_size/armijo.md
+      - Goldstein: step_size/goldstein.md
+      - Wolfe: step_size/wolfe.md
+  - Runtime:
+      - Solver Flow/Status: runtime/solver_flow_and_status.md
+      - Oracle Cache: runtime/oracle_cache.md
+      - Cache Policy: runtime/cache_policy.md
+      - Evaluation Limits: runtime/evaluation_limits.md
+  - Finite Differences:
+      - Overview: finite_diff/README.md
+      - Families: finite_diff/families.md
+      - Gradient FD: finite_diff/gradient_fd.md
+      - Hessian FD: finite_diff/hessian_fd.md
+      - Hv FD: finite_diff/hv_fd.md
+  - Modules:
+      - Core Math Utilities: core/math_utilities.md
+      - Core Options Reference: core/options_reference.md
+      - Objective and Traits: problem/objective_and_traits.md
+      - Oracle API: problem/oracle_api.md
+  - Bench/Examples/Tests:
+      - Bench: bench/README.md
+validation:
+  links:
+    not_found: ignore
+    unrecognized_links: ignore
+    anchors: ignore

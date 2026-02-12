@@ -158,7 +158,7 @@ fd_hessian_central_2(OracleT& oracle, ecref<vecXd> x, eref<matXd> H, f64 eps = 1
     }
     // make H symmetric 
     // H.template triangularView<esUp>() = H.template triangularView<esUp>().transpose();
-    sym_copy_lotohi_ip(H);
+    sym_lotohi_ip(H);
     return H.allFinite();
 }
 
