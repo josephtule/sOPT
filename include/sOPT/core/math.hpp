@@ -85,16 +85,35 @@ constexpr T eps(T x = 1.) {
     return std::nextafter(x, std::numeric_limits<T>::infinity()) - x;
 }
 
-inline bool finite_nonneg(f64 v) {
-    return isfinite(v) && v >= 0.0;
-}
+using std::isfinite;
 
-inline bool finite_pos(f64 v) {
-    return isfinite(v) && v > 0.0;
+template <typename T>
+inline bool finite_nonneg(T v) {
+    return isfinite(v) && v >= T(0);
 }
-
-inline bool finite_nonzero(f64 v) {
-    return isfinite(v) && v != 0;
+template<typename T> 
+inline bool finite_nonpos(T v) {
+    return isfinite(v) && v <= T(0);
+}
+template <typename T>
+inline bool finite_pos(T v) {
+    return isfinite(v) && v > T(0);
+}
+template <typename T>
+inline bool finite_neg(T v) {
+    return isfinite(v) && v < T(0);
+}
+template <typename T>
+inline bool finite_nonzero(T v) {
+    return isfinite(v) && v != T(0);
+}
+template <typename T>
+inline bool in_cl(T v, T lo, T hi) {
+    return v >= lo && v <= hi;
+}
+template <typename T>
+inline bool in_op(T v, T lo, T hi) {
+    return v > lo && v < hi;
 }
 
 // symmetrize in place

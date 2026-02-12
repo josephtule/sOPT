@@ -1,10 +1,10 @@
 #pragma once
 
+#include "sOPT/core/math.hpp"
 #include "sOPT/core/options.hpp"
 #include "sOPT/core/vecdefs.hpp"
 #include "sOPT/step_size/step_attempt.hpp"
 
-#include <limits>
 #include <print>
 
 namespace sOPT {
@@ -22,15 +22,15 @@ struct Goldstein {
         const Options& opt
     ) const {
         const f64 c = opt.ls.c1;
-        if (!(c > 0.0 && c < 0.5)) return StepAttempt::line_search_failed;
+        if (!in_op(c, 0.0, 0.5)) return StepAttempt::line_search_failed;
 
         const f64 g0p = g0.dot(p);
-        if (!(g0p < 0.0)) return StepAttempt::line_search_failed;
+        if (!finite_neg(g0p)) return StepAttempt::line_search_failed;
 
         f64 alo = 0.0;
-        f64 ahi = std::numeric_limits<f64>::infinity();
+        f64 ahi = inf<f64>;
         alpha = opt.ls.alpha0;
-        if (!(alpha > 0.0) || !isfinite(alpha)) return StepAttempt::line_search_failed;
+        if (!finite_pos(alpha)) return StepAttempt::line_search_failed;
 
         x_next.resize(x.size());
         for (i32 k = 0; k < opt.ls.max_iters; k++) {

@@ -2,9 +2,9 @@
 
 #include <complex>
 #include <cstdint>
+#include <limits>
 #include <unordered_map>
 #include <vector>
-#include <limits>
 
 namespace sOPT {
 
@@ -29,9 +29,9 @@ using svec = std::vector<T>;
 template <class T1, class T2>
 using umap = std::unordered_map<T1, T2>;
 
-template<typename T>
+template <typename T>
 inline constexpr T qNaN = std::numeric_limits<T>::quiet_NaN();
-
-using std::isfinite;
+template <typename T>
+inline constexpr T inf = std::numeric_limits<T>::infinity();
 
 } // namespace sOPT

@@ -146,5 +146,50 @@ int main() {
         std::println();
     }
 
+    std::println("------------------------------------------------------------");
+
+    {
+        std::println(
+            "{} (Armijo Step (Interpolated)): Rosenbrock Chained Objective, n = {}",
+            solver_name,
+            n
+        );
+        auto res = solver(ArmijoInterp{});
+        print_sOPT_results(res);
+        std::println();
+    }
+
+    {
+        std::println(
+            "{} (Goldstein Step (Interpolated)): Rosenbrock Chained Objective, n = {}",
+            solver_name,
+            n
+        );
+        auto res = solver(GoldsteinInterp{});
+        print_sOPT_results(res);
+        std::println();
+    }
+
+    {
+        std::println(
+            "{} (Weak Wolfe Step (Interpolated)): Rosenbrock Chained Objective, n = {}",
+            solver_name,
+            n
+        );
+        auto res = solver(WolfeWeakInterp{});
+        print_sOPT_results(res);
+        std::println();
+    }
+
+    {
+        std::println(
+            "{} (Strong Wolfe Step (Interpolated)): Rosenbrock Chained Objective, n = {}",
+            solver_name,
+            n
+        );
+        auto res = solver(WolfeStrongInterp{});
+        print_sOPT_results(res);
+        std::println();
+    }
     return 0;
 }

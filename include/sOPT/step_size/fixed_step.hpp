@@ -19,7 +19,6 @@ struct FixedStep {
         f64& f_next,
         const Options& opt
     ) const {
-        (void)oracle;
         (void)g;
         (void)fx;
 
