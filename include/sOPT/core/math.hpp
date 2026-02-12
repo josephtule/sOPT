@@ -93,6 +93,10 @@ inline bool finite_pos(f64 v) {
     return isfinite(v) && v > 0.0;
 }
 
+inline bool finite_nonzero(f64 v) {
+    return isfinite(v) && v != 0;
+}
+
 // symmetrize in place
 inline void sym_transpose_avg_ip(eref<matXd> M) {
     M = 0.5 * (M + M.transpose());

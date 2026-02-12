@@ -1,7 +1,6 @@
 # Benchmark Objectives and Harness
 
-Headers under [`include/sOPT/bench/`](../../include/sOPT/bench) provide objective
-families and harness helpers used for experimentation and regression checks.
+Benchmark objective functions from: @LVtestproblems, most of the gradients are taken by hand or left empty.
 
 ## Objective families
 

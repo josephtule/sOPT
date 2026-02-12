@@ -1,5 +1,8 @@
 # TODO
 
+## Queue
+- [ ] 
+
 ## Solvers
 - [x] gradient descent
 - [x] newton
