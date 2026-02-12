@@ -5,3 +5,4 @@
 **/build_ci/
 **/site/
 **/interal/
+**/__pycache__
