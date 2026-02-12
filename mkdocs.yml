@@ -28,12 +28,12 @@ markdown_extensions:
       permalink: true
 plugins:
   - search
-  - to-pdf:
-      enabled_if_env: ENABLE_PDF_EXPORT
-      output_path: pdf/document.pdf
-      download_link: header
-      render_js: true
-      headless_chrome_path: /opt/homebrew/bin/chromium
+  # - to-pdf:
+  #     enabled_if_env: ENABLE_PDF_EXPORT
+  #     output_path: pdf/document.pdf
+  #     download_link: header
+  #     render_js: true
+  #     headless_chrome_path: /opt/homebrew/bin/chromium
 extra_javascript:
   - javascripts/mathjax.js
 #   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
