@@ -62,7 +62,7 @@ Legend:
 - [ ] Levenberg-Marquardt (LM)
 - [x] L-BFGS
 - [x] DFP
-- [ ] SR1
+- [x] SR1
 - [ ] PSB
 
 ## Phase 3: Trust-Region / Large-Scale Direction

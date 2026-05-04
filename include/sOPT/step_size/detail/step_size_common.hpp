@@ -5,13 +5,8 @@
 
 namespace sOPT::detail {
 
-inline f64 quad_min_val_slope(
-    f64 a_lo,
-    f64 f_lo,
-    f64 df_lo,
-    f64 a_hi,
-    f64 f_hi
-) {
+// ref: https://people.math.sc.edu/kellerlv/Quadratic_Interpolation.pdf
+inline f64 quad_min_val_slope(f64 a_lo, f64 f_lo, f64 df_lo, f64 a_hi, f64 f_hi) {
     const f64 t = a_hi - a_lo;
     if (!finite_nonzero(t)) return qNaN<f64>;
 
@@ -49,9 +44,8 @@ inline f64 cubic_min_val_slope(
     const f64 B = (-t2 * d1 / t1s + t1 * d2 / t2s) / denom;
     if (!isfinite(A) || !isfinite(B)) return qNaN<f64>;
 
-    auto model = [&](f64 t) -> f64 {
-        return f_base + df_base * t + B * t * t + A * t * t * t;
-    };
+    auto model
+        = [&](f64 t) -> f64 { return f_base + df_base * t + B * t * t + A * t * t * t; };
     auto try_candidate = [&](f64 t, f64& t_best, f64& f_best, bool& has_best) {
         if (!isfinite(t)) return;
         const f64 curvature = 2.0 * B + 6.0 * A * t;

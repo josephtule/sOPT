@@ -5,3 +5,4 @@
 #include "sOPT/algorithms/gradient_descent.hpp"
 #include "sOPT/algorithms/newton.hpp"
 #include "sOPT/algorithms/dfp.hpp"
+#include "sOPT/algorithms/sr1.hpp"

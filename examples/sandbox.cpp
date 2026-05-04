@@ -29,7 +29,7 @@ int main() {
 
     vecXd x0 = obj.x0(2);
 
-    Result res = dfp(obj, x0, opt, WolfeStrong{});
+    Result res = sr1(obj, x0, opt, WolfeStrong{});
     print_sOPT_results(res);
     std::println();
 

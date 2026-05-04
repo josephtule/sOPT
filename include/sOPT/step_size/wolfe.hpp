@@ -128,6 +128,7 @@ inline StepAttempt wolfe_impl(
         f_prev = f_next;
         d_prev = dphi_a;
         alpha = std::min(2.0 * alpha, alpha_max);
+        if (alpha == a_prev) return StepAttempt::line_search_failed;
     }
     return StepAttempt::line_search_failed;
 }
